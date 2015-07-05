@@ -1,0 +1,25 @@
+{
+  "name": "muzic",
+  "version": "0.0.1",
+  "authors": [
+    "Lanz"
+  ],
+  "description": "muzic power by WangYiYun",
+  "main": "app.js",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.10.1",
+    "bootstrap": "~3.3.4"
+  }
+}

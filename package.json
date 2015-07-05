@@ -1,0 +1,27 @@
+{
+  "name": "muzic",
+  "version": "0.0.1",
+  "description": "muzic power by WangYiYun",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "angular": "^1.3.16",
+    "body-parser": "^1.13.1",
+    "debug": "~2.1.1",
+    "express": "~4.12.0",
+    "jade": "~1.9.2",
+    "morgan": "~1.5.1"
+  },
+  "keywords": [
+    "muzic"
+  ],
+  "author": "Lanz",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^1.2.0"
+  }
+}

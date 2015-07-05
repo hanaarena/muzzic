@@ -1,0 +1,25 @@
+extends layout
+
+block scripts
+
+block content
+    #music-main.container
+        .player
+            #cd.cd
+                #out.out
+                #album.album.albumhover
+                #in.in.albumhover
+            .action
+                a.music-control(href='javascript:music_play()')
+                    img#play(src='/images/play.png')
+                input#range(type='range', min='0', max='10', value='5', onchange='volume(this.value)')
+                a.music-control(href='javascript:next_music()')
+                    img#next_music(src='/images/forward.png')
+            .info
+                span#music_name
+                span#artist
+            #music_lrc.music_lrc
+        audio#player
+
+        script(type='text/javascript', src='/javascripts/music.js')
+
