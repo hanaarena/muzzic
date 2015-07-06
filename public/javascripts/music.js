@@ -18,7 +18,7 @@ $("#player").bind("ended", function () {
 });
 
 ins.one('click', function() {
-    if(cover.css('opacity') == 0) {
+    if(cover.css('opacity') === '0') {
         cover.css('opacity', '1');
         $('.action').css('opacity', '1');
         album.css({
@@ -35,7 +35,7 @@ ins.one('click', function() {
 });
 
 album.one('click', function() {
-    if(cover.css('opacity') == 0) {
+    if(cover.css('opacity') === '0') {
         cover.css('opacity', '1');
         $('.action').css('opacity', '1');
         album.css({
@@ -54,12 +54,12 @@ album.one('click', function() {
 function music_play() {
     if(playAudio.paused) {
         playAudio.play();
-        play.attr('src', '/images/pause.png');
+        play.attr('src', '/build/images/pause.png');
         album.addClass('roll');
         cover.addClass('roll');
     } else {
         playAudio.pause();
-        play.attr('src', '/images/play.png');
+        play.attr('src', '/build/images/play.png');
         album.removeClass('roll');
         cover.removeClass('roll');
     }
@@ -71,7 +71,7 @@ function next_music() {
     cover.removeClass('roll');
     
     load_music();
-    play.attr('src', '/images/pause.png');
+    play.attr('src', '/build/images/pause.png');
 }
 
 function load_music() {

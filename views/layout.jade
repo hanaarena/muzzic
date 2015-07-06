@@ -9,7 +9,7 @@ html
       title= title
 
       link(rel='stylesheet', href='/bower_modules/bootstrap/dist/css/bootstrap.css')
-      link(rel='stylesheet', href='/main.css')
+      link(rel='stylesheet', href='/build/css/main.min.css?' + new Date().getTime())
       script(type='text/javascript', src='/bower_modules/jquery/jquery.min.js')
       script(type='text/javascript', src='/bower_modules/bootstrap/dist/js/bootstrap.min.js')
 
@@ -20,4 +20,4 @@ html
   body
       block content
 
-  script(type='text/javascript', src='/javascripts/main.js?' + new Date().getTime())
+  script(type='text/javascript', src='/build/js/all.js?' + new Date().getTime())
