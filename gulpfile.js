@@ -79,5 +79,5 @@ gulp.task('run', function() {
 	gulp.start('nodemon', 'watch');
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'run']);
 
