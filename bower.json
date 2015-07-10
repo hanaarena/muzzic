@@ -20,6 +20,6 @@
   ],
   "dependencies": {
     "jquery": "~1.10.1",
-    "bootstrap": "~3.3.4"
+    "material-design-lite": "~1.0.0"
   }
 }
