@@ -85,6 +85,10 @@ function load_music() {
     //    album.addClass('roll');
     //    cover.addClass('roll');
     //});
+
+	$.get('/song/185982', function (data) {
+		console.log(JSON.parse(data));
+	});
 }
 
 function volume(vol) {

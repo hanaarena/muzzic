@@ -21,6 +21,7 @@ router.get('/', function(req, res, next) {
  */
 router.get('/song/:id', function (req, res, next) {
 	var id = req.params.id;
+	var result;
 	var uri = 'http://music.163.com/api/song/detail/?id=' + id + '&ids=%5B' + id + '%5D';
 
 	var options = {
@@ -32,7 +33,8 @@ router.get('/song/:id', function (req, res, next) {
 
 	function callback(error, response, body) {
 		if (!error && response.statusCode == 200) {
-			console.log(JSON.parse(body));
+			//console.log(JSON.parse(body));
+			result = JSON.parse(body);
 		} else {
 			next();
 		}
@@ -41,6 +43,8 @@ router.get('/song/:id', function (req, res, next) {
 	//request.cookie('appver=1.5.0.75771;');
 
 	request(options, callback);
+
+	return res.send(result);
 });
 
 // Singer detail
@@ -69,8 +73,6 @@ router.get('/singer/:id', function (req, res, next) {
 			next();
 		}
 	}
-
-	//request.cookie('appver=1.5.0.75771;');
 
 	request(options, callback);
 });
@@ -104,8 +106,6 @@ router.get('/album/:id', function (req, res, next) {
 		}
 	}
 
-	//request.cookie('appver=1.5.0.75771;');
-
 	request(options, callback);
 });
 
@@ -131,8 +131,6 @@ router.get('/playlist/:id', function (req, res, next) {
 			next();
 		}
 	}
-
-	//request.cookie('appver=1.5.0.75771;');
 
 	request(options, callback);
 });
@@ -162,8 +160,6 @@ router.get('/lyric/:id', function (req, res, next) {
 			next();
 		}
 	}
-
-	//request.cookie('appver=1.5.0.75771;');
 
 	request(options, callback);
 });
