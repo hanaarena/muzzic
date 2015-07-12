@@ -32,9 +32,10 @@ router.get('/song/:id', function (req, res, next) {
 	};
 
 	function callback(error, response, body) {
-		if (!error && response.statusCode == 200) {
+		if (response) {
 			//console.log(JSON.parse(body));
 			result = JSON.parse(body);
+			return res.json(result);
 		} else {
 			next();
 		}
@@ -43,8 +44,6 @@ router.get('/song/:id', function (req, res, next) {
 	//request.cookie('appver=1.5.0.75771;');
 
 	request(options, callback);
-
-	return res.send(result);
 });
 
 // Singer detail

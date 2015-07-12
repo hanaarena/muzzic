@@ -86,8 +86,12 @@ function load_music() {
     //    cover.addClass('roll');
     //});
 
-	$.get('/song/185982', function (data) {
-		console.log(JSON.parse(data));
+	$.ajax({
+		type: 'GET',
+		url: '/song/185982/'
+	}).done(function (data) {
+		var result = data;
+		album.css({'background-image':'url( "' + result['songs'][0]['album']['picUrl'] + '")', 'opacity':0}).animate({opacity: 1}, 1000);
 	});
 }
 
