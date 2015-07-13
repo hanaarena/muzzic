@@ -5,10 +5,31 @@ var express = require('express');
 var jade = require('jade');
 var router = express.Router();
 var request = require('request');
+var User = require('../models/User');
 
 router.get('/', function(req, res, next) {
-	if (res) {
-		res.render('index', { title: 'MuzicZZZZ'});
+	var userName = req.query.q;
+
+	if (userName) {
+		User.findOne({ name: userName })
+			.exec(function(err, user){
+				if (err) {
+					next(err);
+				} else {
+					var playlistCount = user.favorPlaylist.length;
+					var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
+					res.render('index', { title: 'MuzicZZZZ', user: user });
+				}
+			});
+	} else if (!userName) {
+		User.find({})
+			.exec(function (err, users){
+				if (err) {
+					next(err);
+				} else {
+					res.render('index', { title: 'MuzicZZZZ', users: users });
+				}
+			});
 	} else {
 		next();
 	}
@@ -83,7 +104,7 @@ router.get('/singer/:id', function (req, res, next) {
 router.get('/album/:id', function (req, res, next) {
 	var id = req.params.id;
 	//- Default only show 10 albums
-	var uri = 'http://music.163.com/api/album/2457012?ext=true&id=2457012&offset=0&total=true&limit=10';
+	var uri = 'http://music.163.com/api/album/' + id +'?ext=true&id=' + id + '&offset=0&total=true&limit=10';
 
 	var options = {
 		url: uri,
@@ -98,8 +119,6 @@ router.get('/album/:id', function (req, res, next) {
 	function callback(error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log(JSON.parse(body));
-			var result = JSON.parse(body);
-			console.log(result.album.songs);
 		} else {
 			next();
 		}
@@ -125,7 +144,9 @@ router.get('/playlist/:id', function (req, res, next) {
 
 	function callback(error, response, body) {
 		if (!error && response.statusCode == 200) {
-			console.log(JSON.parse(body));
+			//console.log(JSON.parse(body));
+			result = JSON.parse(body);
+			return res.json(result);
 		} else {
 			next();
 		}
@@ -161,6 +182,29 @@ router.get('/lyric/:id', function (req, res, next) {
 	}
 
 	request(options, callback);
+});
+
+//- Test: init default user automatic
+router.get('/auto', function(req, res, next) {
+	User.findOne({name: 'admin'}, function(err, user) {
+		if (user) {
+			req.flash('errors', 'admin user already exists');
+		} else {
+			var newUser = new User({
+				name: 'admin', //- default
+				avatar: '/path/to/avatar',
+				favorSong: ['185982'], //- default
+				favorPlaylist: ['88497708'] //- default
+			});
+			newUser.save(function(err, user) {
+				if (err) {
+					return next(err);
+				} else {
+					return res.redirect('/');
+				}
+			});
+		}
+	});
 });
 
 router.get('*', function(req, res){

@@ -3,8 +3,15 @@ var http = require('http');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/routes');
+
+mongoose.connect('mongodb://127.0.0.1/muzic');
+console.log('Connected to MongoDB');
+mongoose.connection.on('error', function() {
+	console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
+});
 
 var app = express();
 
