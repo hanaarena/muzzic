@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "jquery": "~1.10.1",
-    "material-design-lite": "~1.0.0"
+    "material-design-lite": "~1.0.0",
+    "jquery.cookie": "~1.4.1"
   }
 }
