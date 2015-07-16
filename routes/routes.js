@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 			});
 	} else if (!userName) {
 		User.find({})
-			.exec(function (err, users) {
+			.exec(function (err, users){
 				if (err) {
 					next(err);
 				} else {
