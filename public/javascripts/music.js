@@ -76,7 +76,7 @@ function next_music() {
 function load_music() {
 	$.ajax({
 		type: 'GET',
-		url: '/song/185982/'
+		url: '/song/24603571/'
 	}).done(function (data) {
 		var result = data;
 

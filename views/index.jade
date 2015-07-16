@@ -4,7 +4,10 @@ block scripts
 
 block content
     .layout-transparent.mdl-layout.mdl-js-layout
-        if user
+        if users
+            each u in users
+                p= u
+        else
             header.mdl-layout__header.mdl-layout__header--transparent
                 .mdl-layout__header-row
                     // Title
@@ -41,5 +44,3 @@ block content
                         span#artist
                     #music_lrc.music_lrc
                     audio#player
-        else if users
-            p show users

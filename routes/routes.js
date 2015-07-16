@@ -8,22 +8,40 @@ var request = require('request');
 var User = require('../models/User');
 
 router.get('/', function(req, res, next) {
+	//- TODO: handle query string
 	var userName = req.query.q;
+	var baseUri = req.protocol + '://' + req.hostname + ':3001';
 
 	if (userName) {
 		User.findOne({ name: userName })
-			.exec(function(err, user){
+			.exec(function(err, user) {
 				if (err) {
 					next(err);
 				} else {
 					var playlistCount = user.favorPlaylist.length;
+					//- playlist sum
+					console.log(playlistCount);
 					var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
-					res.render('index', { title: 'MuzicZZZZ', user: user });
+					//- playlist random id
+					console.log(playlist);
+
+					request({
+						method: 'GET',
+						uri: baseUri  + '/playlist/' + playlist
+					}, function (error, response, body) {
+						if (!error && response.statusCode == 200) {
+							var result = JSON.parse(body);
+
+							console.log(result.result.tracks[0].mp3Url);
+						}
+					});
+
+					res.render('index', { title: 'User play list' });
 				}
 			});
 	} else if (!userName) {
 		User.find({})
-			.exec(function (err, users){
+			.exec(function (err, users) {
 				if (err) {
 					next(err);
 				} else {
@@ -42,7 +60,6 @@ router.get('/', function(req, res, next) {
  */
 router.get('/song/:id', function (req, res, next) {
 	var id = req.params.id;
-	var result;
 	var uri = 'http://music.163.com/api/song/detail/?id=' + id + '&ids=%5B' + id + '%5D';
 
 	var options = {
@@ -55,10 +72,10 @@ router.get('/song/:id', function (req, res, next) {
 	function callback(error, response, body) {
 		if (response) {
 			//console.log(JSON.parse(body));
-			result = JSON.parse(body);
+			var result = JSON.parse(body);
 			return res.json(result);
 		} else {
-			next();
+			next(error);
 		}
 	}
 
@@ -145,7 +162,7 @@ router.get('/playlist/:id', function (req, res, next) {
 	function callback(error, response, body) {
 		if (!error && response.statusCode == 200) {
 			//console.log(JSON.parse(body));
-			result = JSON.parse(body);
+			var result = JSON.parse(body);
 			return res.json(result);
 		} else {
 			next();
@@ -189,18 +206,19 @@ router.get('/auto', function(req, res, next) {
 	User.findOne({name: 'admin'}, function(err, user) {
 		if (user) {
 			req.flash('errors', 'admin user already exists');
+			next();
 		} else {
 			var newUser = new User({
 				name: 'admin', //- default
 				avatar: '/path/to/avatar',
 				favorSong: ['185982'], //- default
-				favorPlaylist: ['88497708'] //- default
+				favorPlaylist: ['88497708', '10459133', '88480804'] //- default
 			});
 			newUser.save(function(err, user) {
 				if (err) {
 					return next(err);
 				} else {
-					return res.redirect('/');
+					return res.redirect('/?q=admin');
 				}
 			});
 		}
