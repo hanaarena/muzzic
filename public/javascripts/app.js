@@ -5,6 +5,7 @@ requirejs.config({
 		"jquery.cookie": "jquery.cookie/jquery.cookie",
 		"jquery.bootstrap": "bootstrap/dist/js/bootstrap",
 		"angular": "angular/angular",
+		"angular.cookies": "angular-cookies/angular-cookies",
 		"material-design-list": "material-design-list/material-design-list"
 	},
 	"shim": {
@@ -12,6 +13,7 @@ requirejs.config({
 			deps: ["jquery"],
 			exports: "angular"
 		},
+		"angular-cookies": ["angular"],
 		"jquery.cookie": ["jquery"],
 		"jquery.bootstrap": ["jquery"]
 	}

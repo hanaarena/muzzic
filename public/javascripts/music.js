@@ -1,4 +1,5 @@
 require(['jquery'], function($) {
+	console.log('fff');
 	var playAudio = document.getElementById('player'),
 		cd = $('#cd'),
 		ins = $('#in'),
