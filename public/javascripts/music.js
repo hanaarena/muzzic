@@ -1,5 +1,4 @@
-require(['jquery'], function($) {
-	console.log('fff');
+require(['jquery', 'material'], function($) {
 	var playAudio = document.getElementById('player'),
 		cd = $('#cd'),
 		ins = $('#in'),

@@ -6,7 +6,7 @@ requirejs.config({
 		"jquery.bootstrap": "bootstrap/dist/js/bootstrap",
 		"angular": "angular/angular",
 		"angular.cookies": "angular-cookies/angular-cookies",
-		"material-design-list": "material-design-list/material-design-list"
+		"material": "material-design-lite/material"
 	},
 	"shim": {
 		"angular": {
