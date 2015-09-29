@@ -9,7 +9,9 @@ var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var minifycss = require('gulp-minify-css');
 var imagemin = require('gulp-imagemin');
-var nodemon = require('gulp-nodemon');
+var clean = require('gulp-clean');
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 
 var AUTOPREFIXER_BROWSERS = [
 	'last 3 versions',
@@ -18,6 +20,14 @@ var AUTOPREFIXER_BROWSERS = [
 	'android >= 4.4',
 	'bb >= 10'
 ];
+
+gulp.task('clean', function() {
+	return gulp.src([
+		'./public/build/css/**/*.css',
+		'./public/build/js/**/*.js'],
+		{read: false})
+		.pipe(clean());
+});
 
 gulp.task('img', function() {
 	return gulp.src('./public/images/*.{gif,jpg,png}')
@@ -29,6 +39,8 @@ gulp.task('img', function() {
 		.pipe(gulp.dest('./public/build/images/'))
 });
 
+gulp.task('images', ['img']);
+
 gulp.task('css', function() {
 	return gulp.src('./public/less/main.less')
 		.pipe(less({}))
@@ -37,6 +49,7 @@ gulp.task('css', function() {
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(minifycss())
 		.pipe(gulp.dest('./public/build/css/'))
+		.pipe(browserSync.stream({match: './public/less/**/*.less', once: true}))
 });
 
 gulp.task('jslint', function() {
@@ -54,30 +67,32 @@ gulp.task('scripts', function() {
 		.pipe(stripdebug())
 		.pipe(uglify())
 		.pipe(gulp.dest('./public/build/js/'))
+		.pipe(browserSync.stream({match: './public/javascripts/**/*.js', once: true}))
 });
 
 //- TODO: Append file hash in jade files
 //var timestamp = new Date().getTime();
 
-gulp.task('nodemon', function () {
-	nodemon({
-		script: 'bin/www',
-		ignore: ['node_modules']
-	})
-});
-
 gulp.task('watch', function () {
+	// proxy local server
+	browserSync.init({
+		proxy: 'localhost:3001',
+		port: 3001,
+		ui: {
+			port: 3000
+		}
+	});
+
+	gulp.start(['img', 'css', 'scripts']);
+
+	gulp.watch('./views/**/*.jade').on('change', reload);
 	gulp.watch('./public/less/**/*', ['css']);
 	gulp.watch('./public/javascripts/**/*', ['jslint', 'scripts']);
 });
 
-gulp.task('images', ['img']);
+gulp.task('build', ['clean', 'img', 'css', 'jslint', 'scripts']);
 
-gulp.task('build', ['css', 'jslint', 'scripts']);
-
-gulp.task('run', function() {
-	gulp.start('nodemon', 'watch');
+gulp.task('default', ['clean'], function() {
+	gulp.start('css', 'jslint', 'scripts');
 });
-
-gulp.task('default', ['build', 'run']);
 
