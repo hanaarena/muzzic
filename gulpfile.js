@@ -49,14 +49,13 @@ gulp.task('css', function() {
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(minifycss())
 		.pipe(gulp.dest('./public/build/css/'))
-		.pipe(browserSync.stream({match: './public/less/**/*.less', once: true}))
+		.pipe(browserSync.stream({match: '**/*.css'}))
 });
 
 gulp.task('jslint', function() {
 	return gulp.src('./public/javascripts/**/*.js')
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'))
-		.pipe(jshint.reporter('fail'))
 });
 
 gulp.task('scripts', function() {
@@ -67,7 +66,7 @@ gulp.task('scripts', function() {
 		.pipe(stripdebug())
 		.pipe(uglify())
 		.pipe(gulp.dest('./public/build/js/'))
-		.pipe(browserSync.stream({match: './public/javascripts/**/*.js', once: true}))
+		.pipe(browserSync.stream({match: '**/*.js'}))
 });
 
 //- TODO: Append file hash in jade files
@@ -76,11 +75,8 @@ gulp.task('scripts', function() {
 gulp.task('watch', function () {
 	// proxy local server
 	browserSync.init({
-		proxy: 'localhost:3001',
-		port: 3001,
-		ui: {
-			port: 3000
-		}
+		port: 3003,
+		proxy: 'localhost:3001'
 	});
 
 	gulp.start(['img', 'css', 'scripts']);
