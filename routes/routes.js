@@ -18,12 +18,10 @@ router.get('/', function(req, res, next) {
 				if (err) {
 					next(err);
 				} else {
+					//- Get user favor play list length
 					var playlistCount = user.favorPlaylist.length;
-					//- playlist sum
-					console.log(playlistCount);
+					//- Get random play list number from list
 					var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
-					//- playlist random id
-					console.log(playlist);
 
 					request({
 						method: 'GET',

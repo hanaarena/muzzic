@@ -75,8 +75,8 @@ gulp.task('scripts', function() {
 gulp.task('watch', function () {
 	// proxy local server
 	browserSync.init({
-		port: 3003,
-		proxy: 'localhost:3001'
+	  port: 3000,
+	  proxy: 'localhost:8080'
 	});
 
 	gulp.start(['img', 'css', 'scripts']);
