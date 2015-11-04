@@ -12,6 +12,9 @@ var imagemin = require('gulp-imagemin');
 var clean = require('gulp-clean');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var browserify = require('browserify');
 
 var AUTOPREFIXER_BROWSERS = [
 	'last 3 versions',
@@ -69,6 +72,18 @@ gulp.task('scripts', function() {
 		.pipe(browserSync.stream({match: '**/*.js'}))
 });
 
+gulp.task('allScripts', function() {
+	var b = browserify({
+		entries: "./public/javascripts/muzic.bootstrap.js",
+		basedir: '.'
+	});
+
+	return b.bundle()
+		.pipe(source('muzic.bootstrap.js'))
+		.pipe(buffer())
+		.pipe(gulp.dest("./public/build/"));
+});
+
 //- TODO: Append file hash in jade files
 //var timestamp = new Date().getTime();
 
@@ -79,11 +94,11 @@ gulp.task('watch', function () {
 	  proxy: 'localhost:8080'
 	});
 
-	gulp.start(['img', 'css', 'scripts']);
+	gulp.start(['img', 'css', 'allScripts']);
 
 	gulp.watch('./views/**/*.jade').on('change', reload);
 	gulp.watch('./public/less/**/*', ['css']);
-	gulp.watch('./public/javascripts/**/*', ['jslint', 'scripts']);
+	gulp.watch('./public/javascripts/**/*', ['jslint', 'allScripts']).on('change', reload);
 });
 
 gulp.task('build', ['clean', 'img', 'css', 'jslint', 'scripts']);

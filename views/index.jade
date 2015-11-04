@@ -3,7 +3,7 @@ extends layout
 block scripts
 
 block content
-    .layout-transparent.mdl-layout.mdl-js-layout
+    .layout-transparent.mdl-layout.mdl-js-layout(ng-controller="mainCtrl")
         if users
             each u in users
                 p= u
@@ -32,13 +32,13 @@ block content
                 .player
                     #cd.cd
                         #out.out
-                        #album.album.albumhover
-                        #in.in.albumhover
+                        #album.album.albumhover(ng-click="initPlay")
+                        #in.in.albumhover(ng-click="initPlay")
                     .action
-                        a.music-control(href='javascript:music_play()')
+                        a.music-control(ng-click="musicPlay")
                             img#play(src='/images/play.png')
-                        input#range(type='range', min='0', max='10', value='5', onchange='volume(this.value)')
-                        a.music-control(href='javascript:next_music()')
+                        input#range(type='range', min='0', max='10', value='5', ng-model="volumes")
+                        a.music-control(ng-click="nextMusic")
                             img#next_music(src='/images/forward.png')
                     .info
                         span#music_name
