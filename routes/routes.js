@@ -7,48 +7,48 @@ var router = express.Router();
 var request = require('request');
 var User = require('../models/User');
 
-router.get('/', function(req, res, next) {
-	//- TODO: handle query string
-	var userName = req.query.q;
-	var baseUri = req.protocol + '://' + req.hostname + ':3001';
+router.get('/', function (req, res, next) {
+  //- TODO: handle query string
+  var userName = req.query.q;
+  var baseUri = req.protocol + '://' + req.hostname + ':3001';
 
-	if (userName) {
-		User.findOne({ name: userName })
-			.exec(function(err, user) {
-				if (err) {
-					next(err);
-				} else {
-					//- Get user favor play list length
-					var playlistCount = user.favorPlaylist.length;
-					//- Get random play list number from list
-					var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
+  if (userName) {
+    User.findOne({name: userName})
+      .exec(function (err, user) {
+        if (err) {
+          next(err);
+        } else {
+          //- Get user favor play list length
+          var playlistCount = user.favorPlaylist.length;
+          //- Get random play list number from list
+          var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
 
-					request({
-						method: 'GET',
-						uri: baseUri  + '/playlist/' + playlist
-					}, function (error, response, body) {
-						if (!error && response.statusCode == 200) {
-							var result = JSON.parse(body);
+          request({
+            method: 'GET',
+            uri: baseUri + '/playlist/' + playlist
+          }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+              var result = JSON.parse(body);
 
-							console.log(result.result.tracks[0].mp3Url);
-						}
-					});
+              console.log(result.result.tracks[0].mp3Url);
+            }
+          });
 
-					res.render('index', { title: 'User play list' });
-				}
-			});
-	} else if (!userName) {
-		User.find({})
-			.exec(function (err, users){
-				if (err) {
-					next(err);
-				} else {
-					res.render('index', { title: 'MuzicZZZZ', users: users });
-				}
-			});
-	} else {
-		next();
-	}
+          res.render('index', {title: 'User play list'});
+        }
+      });
+  } else if (!userName) {
+    User.find({})
+      .exec(function (err, users) {
+        if (err) {
+          next(err);
+        } else {
+          res.render('index', {title: 'MuzicZZZZ', users: users});
+        }
+      });
+  } else {
+    next();
+  }
 });
 
 // Song detail
@@ -57,29 +57,29 @@ router.get('/', function(req, res, next) {
  * @param ids - same as song id
  */
 router.get('/song/:id', function (req, res, next) {
-	var id = req.params.id;
-	var uri = 'http://music.163.com/api/song/detail/?id=' + id + '&ids=%5B' + id + '%5D';
+  var id = req.params.id;
+  var uri = 'http://music.163.com/api/song/detail/?id=' + id + '&ids=%5B' + id + '%5D';
 
-	var options = {
-		url: uri,
-		headers: {
-			'User-Agent': 'request'
-		}
-	};
+  var options = {
+    url: uri,
+    headers: {
+      'User-Agent': 'request'
+    }
+  };
 
-	function callback(error, response, body) {
-		if (response) {
-			//console.log(JSON.parse(body));
-			var result = JSON.parse(body);
-			return res.json(result);
-		} else {
-			next(error);
-		}
-	}
+  function callback(error, response, body) {
+    if (response) {
+      //console.log(JSON.parse(body));
+      var result = JSON.parse(body);
+      return res.json(result);
+    } else {
+      next(error);
+    }
+  }
 
-	//request.cookie('appver=1.5.0.75771;');
+  //request.cookie('appver=1.5.0.75771;');
 
-	request(options, callback);
+  request(options, callback);
 });
 
 // Singer detail
@@ -87,29 +87,29 @@ router.get('/song/:id', function (req, res, next) {
  * @param id - singer id
  */
 router.get('/singer/:id', function (req, res, next) {
-	var id = req.params.id;
-	//- Default only show 5 albums
-	var uri = 'http://music.163.com/api/artist/albums/' + id + '?id=' + id + '&offset=0&total=true&limit=5';
+  var id = req.params.id;
+  //- Default only show 5 albums
+  var uri = 'http://music.163.com/api/artist/albums/' + id + '?id=' + id + '&offset=0&total=true&limit=5';
 
-	var options = {
-		url: uri,
-		headers: {
-			//- 假装我是浏览器
-			'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Referer': 'http://music.163.com/'
-		}
-	};
+  var options = {
+    url: uri,
+    headers: {
+      //- 假装我是浏览器
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Referer': 'http://music.163.com/'
+    }
+  };
 
-	function callback(error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log(JSON.parse(body));
-		} else {
-			next();
-		}
-	}
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(JSON.parse(body));
+    } else {
+      next();
+    }
+  }
 
-	request(options, callback);
+  request(options, callback);
 });
 
 // Album detail
@@ -117,29 +117,29 @@ router.get('/singer/:id', function (req, res, next) {
  * @param id - album id
  */
 router.get('/album/:id', function (req, res, next) {
-	var id = req.params.id;
-	//- Default only show 10 albums
-	var uri = 'http://music.163.com/api/album/' + id +'?ext=true&id=' + id + '&offset=0&total=true&limit=10';
+  var id = req.params.id;
+  //- Default only show 10 albums
+  var uri = 'http://music.163.com/api/album/' + id + '?ext=true&id=' + id + '&offset=0&total=true&limit=10';
 
-	var options = {
-		url: uri,
-		headers: {
-			//- 假装我是浏览器
-			'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Referer': 'http://music.163.com/'
-		}
-	};
+  var options = {
+    url: uri,
+    headers: {
+      //- 假装我是浏览器
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Referer': 'http://music.163.com/'
+    }
+  };
 
-	function callback(error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log(JSON.parse(body));
-		} else {
-			next();
-		}
-	}
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(JSON.parse(body));
+    } else {
+      next();
+    }
+  }
 
-	request(options, callback);
+  request(options, callback);
 });
 
 // playlist detail
@@ -147,27 +147,27 @@ router.get('/album/:id', function (req, res, next) {
  * @param id - playlist id
  */
 router.get('/playlist/:id', function (req, res, next) {
-	var id = req.params.id;
-	var uri = 'http://music.163.com/api/playlist/detail?id=' + id + '&updateTime=-1';
+  var id = req.params.id;
+  var uri = 'http://music.163.com/api/playlist/detail?id=' + id + '&updateTime=-1';
 
-	var options = {
-		url: uri,
-		headers: {
-			'User-Agent': 'request'
-		}
-	};
+  var options = {
+    url: uri,
+    headers: {
+      'User-Agent': 'request'
+    }
+  };
 
-	function callback(error, response, body) {
-		if (!error && response.statusCode == 200) {
-			//console.log(JSON.parse(body));
-			var result = JSON.parse(body);
-			return res.json(result);
-		} else {
-			next();
-		}
-	}
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      //console.log(JSON.parse(body));
+      var result = JSON.parse(body);
+      return res.json(result);
+    } else {
+      next();
+    }
+  }
 
-	request(options, callback);
+  request(options, callback);
 });
 
 // lyric detail
@@ -175,58 +175,58 @@ router.get('/playlist/:id', function (req, res, next) {
  * @param id - song id
  */
 router.get('/lyric/:id', function (req, res, next) {
-	var id = req.params.id;
-	var uri = 'http://music.163.com/api/song/lyric?os=pc&id=' + id + '&lv=-1&kv=-1&tv=-1';
+  var id = req.params.id;
+  var uri = 'http://music.163.com/api/song/lyric?os=pc&id=' + id + '&lv=-1&kv=-1&tv=-1';
 
-	var options = {
-		url: uri,
-		headers: {
-			//- 假装我是浏览器
-			'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Referer': 'http://music.163.com/'
-		}
-	};
+  var options = {
+    url: uri,
+    headers: {
+      //- 假装我是浏览器
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Referer': 'http://music.163.com/'
+    }
+  };
 
-	function callback(error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log(JSON.parse(body));
-		} else {
-			next();
-		}
-	}
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(JSON.parse(body));
+    } else {
+      next();
+    }
+  }
 
-	request(options, callback);
+  request(options, callback);
 });
 
 //- Test: init default user automatic
-router.get('/auto', function(req, res, next) {
-	User.findOne({name: 'admin'}, function(err, user) {
-		if (user) {
-			req.flash('errors', 'admin user already exists');
-			next();
-		} else {
-			var newUser = new User({
-				name: 'admin', //- default
-				avatar: '/path/to/avatar',
-				favorSong: ['185982'], //- default
-				favorPlaylist: ['88497708', '10459133', '88480804'] //- default
-			});
-			newUser.save(function(err, user) {
-				if (err) {
-					return next(err);
-				} else {
-					return res.redirect('/?q=admin');
-				}
-			});
-		}
-	});
+router.get('/auto', function (req, res, next) {
+  User.findOne({name: 'admin'}, function (err, user) {
+    if (user) {
+      req.flash('errors', 'admin user already exists');
+      next();
+    } else {
+      var newUser = new User({
+        name: 'admin', //- default
+        avatar: '/path/to/avatar',
+        favorSong: ['185982'], //- default
+        favorPlaylist: ['88497708', '10459133', '88480804'] //- default
+      });
+      newUser.save(function (err, user) {
+        if (err) {
+          return next(err);
+        } else {
+          return res.redirect('/?q=admin');
+        }
+      });
+    }
+  });
 });
 
-router.get('*', function(req, res){
-	res.status(404);
+router.get('*', function (req, res) {
+  res.status(404);
 
-	res.render('error');
+  res.render('error');
 });
 
 module.exports = router;
