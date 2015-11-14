@@ -34,25 +34,6 @@ html
     block scripts
 
   body
-    .layout-transparent.mdl-layout.mdl-js-layout(ng-controller="mainCtrl" ng-cloak)
-      header.mdl-layout__header.mdl-layout__header--transparent
-        .mdl-layout__header-row
-          // Title
-          span.mdl-layout-title
-          // Add spacer, to align navigation to the right
-          .mdl-layout-spacer
-          // Navigation (right)
-          nav.mdl-navigation
-            // Inbox badges
-            //- TODO: user notification
-            a.mdl-navigation__link(href="")
-              .mdl-badge(data-badge='n') Inbox
-      .mdl-layout__drawer
-        span.mdl-layout-title Menu
-        nav.mdl-navigation
-          a.mdl-navigation__link(href='/user') User
-          a.mdl-navigation__link(href='') Explore
-          a.mdl-navigation__link(href='') About
-      block content
+    block content
 
   script(type='text/javascript', src='/build/muzic.bootstrap.js?' + new Date().getTime())

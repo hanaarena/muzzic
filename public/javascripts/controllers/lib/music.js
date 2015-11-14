@@ -1,5 +1,4 @@
 var angular = require('angular');
-
 var mainModule = angular.module('mainModule', []);
 
 mainModule.controller('mainCtrl', [
@@ -41,7 +40,7 @@ mainModule.controller('mainCtrl', [
     });
 
     $scope.initPlay = function () {
-      console.log('click2');
+      console.log('init play');
       if (cover.css('opacity') === '0') {
         cover.css('opacity', '1');
         $('.action').css('opacity', '1');

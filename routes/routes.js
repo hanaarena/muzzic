@@ -7,48 +7,8 @@ var router = express.Router();
 var request = require('request');
 var User = require('../models/User');
 
-router.get('/', function (req, res, next) {
-  //- TODO: handle query string
-  var userName = req.query.q;
-  var baseUri = req.protocol + '://' + req.hostname + ':3001';
-
-  if (userName) {
-    User.findOne({name: userName})
-      .exec(function (err, user) {
-        if (err) {
-          next(err);
-        } else {
-          //- Get user favor play list length
-          var playlistCount = user.favorPlaylist.length;
-          //- Get random play list number from list
-          var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
-
-          request({
-            method: 'GET',
-            uri: baseUri + '/playlist/' + playlist
-          }, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-              var result = JSON.parse(body);
-
-              console.log(result.result.tracks[0].mp3Url);
-            }
-          });
-
-          res.render('index', {title: 'User play list'});
-        }
-      });
-  } else if (!userName) {
-    User.find({})
-      .exec(function (err, users) {
-        if (err) {
-          next(err);
-        } else {
-          res.render('index', {title: 'MuzicZZZZ', users: users});
-        }
-      });
-  } else {
-    next();
-  }
+router.get('/', function (req, res) {
+  res.render('index', {title: 'Muzzic'});
 });
 
 // Song detail
@@ -221,12 +181,6 @@ router.get('/auto', function (req, res, next) {
       });
     }
   });
-});
-
-router.get('*', function (req, res) {
-  res.status(404);
-
-  res.render('error');
 });
 
 module.exports = router;

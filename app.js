@@ -5,7 +5,9 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+// Routes
 var routes = require('./routes/routes');
+var user = require('./routes/user');
 
 mongoose.connect('mongodb://127.0.0.1/muzic');
 console.log('Connected to MongoDB');
@@ -24,7 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(routes);
+app.use('/', routes);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

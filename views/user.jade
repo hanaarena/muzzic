@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  main.mdl-layout__content
+    #music-main.container
+      .player
+        #cd.cd
+          #out.out
+          #album.album.albumhover
+          #in.in.albumhover
+        .action
+          a.music-control(ng-click="musicPlay")
+            img#play(src='/images/play.png')
+          input#range(type='range', min='0', max='10', value='5', ng-model="volumes")
+          a.music-control(ng-click="nextMusic")
+            img#next_music(src='/images/forward.png')
+        .info
+          span#music_name
+          span#artist
+        #music_lrc.music_lrc
+        audio#player

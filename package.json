@@ -1,7 +1,7 @@
 {
-  "name": "muzic",
-  "version": "0.0.1",
-  "description": "muzic power by WangYiYun",
+  "name": "muzzic",
+  "version": "0.2.1",
+  "description": "muzzic power by NetEase YunYinYue",
   "main": "app.js",
   "scripts": {
     "start": "node ./bin/www"
@@ -24,7 +24,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "keywords": [
-    "muzic"
+    "muzzic"
   ],
   "author": "Lanz",
   "license": "MIT",

@@ -1,0 +1,256 @@
+// Width variables (appears count calculates by raw css)
+@width3: 66.6665%;
+// Appears 2 times
+@width4: 33.3332%;
+// Appears 2 times
+@width6: 100%;
+// Appears 3 times
+@width7: none;
+// Appears 2 times
+@width10: 50%;
+// Appears 2 times
+
+html {
+  font-size: 16px;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: @width7;
+}
+
+.row {
+  *zoom: 1;
+  clear: both;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: @width7;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  &:after {
+    clear: both;
+    content: "";
+    display: table;
+    line-height: 0;
+  }
+  &:before {
+    content: "";
+    display: table;
+    line-height: 0;
+  }
+  .unit {
+    float: left;
+    left: 0;
+    margin-left: inherit;
+    padding-left: 0;
+    padding-right: 0;
+    padding: 0.625em;
+    width: @width6;
+    width: @width6;
+    .unit {
+      &:first-of-type {
+        padding-left: 0;
+      }
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+  .whole {
+    width: @width6;
+  }
+  .half {
+    width: @width10;
+  }
+  .third {
+    width: @width4;
+  }
+  .two-thirds {
+    width: @width3;
+  }
+  .fourth {
+    width: 25%;
+  }
+  .three-fourths {
+    width: 75%;
+  }
+  .fifth {
+    width: 20%;
+  }
+  .two-fifths {
+    width: 40%;
+  }
+  .three-fifths {
+    width: 60%;
+  }
+  .four-fifths {
+    width: 80%;
+  }
+  .sixth {
+    width: 16.6666%;
+  }
+  .five-sixths {
+    width: 83.3333%;
+  }
+  .golden-small {
+    width: 38.2716%;
+  }
+  .golden-large {
+    width: 61.7283%;
+  }
+}
+
+.row > .unit {
+  &:first-of-type {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.row.equal-units > .unit {
+  &:first-of-type {
+    padding-left: 0.625em;
+  }
+  &:last-child {
+    padding-right: 0;
+    padding-right: 0.625em;
+  }
+}
+
+.alpha {
+  padding-left: 0;
+}
+
+.omega {
+  padding-right: 0;
+}
+
+.two-quarters {
+  width: @width10;
+}
+
+.two-sixths {
+  width: @width4;
+}
+
+.four-sixths {
+  width: @width3;
+}
+
+.row.no-gutters, .row .row, .no-gutters .unit, .unit.no-gutters {
+  padding: 0;
+}
+
+.push-one, .push-two, .push-three, .push-four {
+  position: relative;
+}
+
+.push-one {
+  left: 13.9%;
+}
+
+.push-two {
+  left: 26.4%;
+}
+
+.push-three {
+  left: 38.9%;
+}
+
+.push-four {
+  left: 51.4%;
+}
+
+.clear {
+  clear: both;
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+}
+
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  &:before {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  &:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
+
+.left {
+  float: left;
+  margin-right: .8em;
+}
+
+.right {
+  float: right;
+  margin-left: .8em;
+}
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+.center-small {
+  text-align: center;
+  text-align: inherit;
+}
+
+.hide-small {
+  display: none;
+}
+
+/* Small classes will only apply to viewports below 35.5em or 568px (with a 16px base) */
+.center-small {
+  text-align: center;
+}
+
+.hide-small {
+  display: none;
+}
+
+@media (min-width: 35.5em) {
+  .hide-small {
+    display: block;
+  }
+
+  .center-small {
+    text-align: inherit;
+  }
+}
+
+/* Example of a "small to medium" breakpoint for a single-column layout (optional) */
+@media (min-width: 10em) and (max-width: 35.5em) {
+  .row.equal-units > .unit:first-of-type {
+    padding-left: 0;
+  }
+
+  .row.equal-units > .unit:last-child {
+    padding-right: 0;
+  }
+
+  /* All units can go full-width here */
+  .row .unit {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+
+    left: 0;
+    /* Reset neg. margin for nested grids */
+    margin-left: inherit;
+  }
+}
