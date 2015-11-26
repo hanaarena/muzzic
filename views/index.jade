@@ -1,11 +1,8 @@
 extends layout
 
 block content
-  main#index-wrapper.mdl-layout__content.container
+  main#index-wrapper.mdl-layout__content.container(ng-controller="IndexCtrl")
     section.row
       .unit.third
-        .play-id.active
-      .unit.third
-        .play-id
-      .unit.third
-        .play-id
+        ul
+          li.play-id(class="item-{{$index+1}}", ng-repeat="item in musicList", ng-class="{active : item.isActive}", ng-click="activeItem($index, musicList)")
