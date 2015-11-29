@@ -17,7 +17,7 @@ router.get('/:userName', function(req, res, next) {
   var baseUri = req.protocol + '://' + req.hostname + ':3001';
 
   if (userName) {
-    console.log(userName);
+    console.log('user page - user name: ' + userName);
     User.findOne({name: userName})
       .exec(function (err, user) {
         if (!user) {

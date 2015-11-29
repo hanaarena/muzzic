@@ -9,10 +9,15 @@ indexModule.controller('IndexCtrl', [
     $scope.userName = '';
     $scope.isActive = false;
 
-    $scope.musicList = [
-      {isActive: false, value: 'aaa'},
-      {isActive: false, value: 'bbb'}
-    ];
+    var queryMusicList = function() {
+      $http.get('/musicList').then(function(response) {
+        console.log(response);
+        $scope.musicList = response.data.result;
+      }, function(err) {
+        console.error(err);
+      });
+    };
+    queryMusicList();
 
     $scope.activeItem = function(index, list){
       if (list[index].isActive) {

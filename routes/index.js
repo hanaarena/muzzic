@@ -6,9 +6,23 @@ var jade = require('jade');
 var router = express.Router();
 var request = require('request');
 var User = require('../models/User');
+var MusicList = require('../models/MusicList');
 
 router.get('/', function (req, res) {
   res.render('index', {title: 'Muzzic'});
+});
+
+router.get('/musiclist', function(req, res, next) {
+  //  Model.find(conditions, [projection], [options], [callback])
+  MusicList.find({}, {
+    _id: false, isActive: true, value: true, url: true
+  }).exec(function(err, list) {
+    if (err) {
+      next(err);
+    } else {
+      res.status(200).send({result: list});
+    }
+  });
 });
 
 // Song detail
