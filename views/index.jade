@@ -2,7 +2,11 @@ extends layout
 
 block content
   main#index-wrapper.mdl-layout__content.container(ng-controller="IndexCtrl")
-    section.row
-      .unit.third
+    section.row.section-music-list
+      .unit.list-item
         ul
           li.play-id(class="item-{{$index+1}}", ng-repeat="item in musicList", ng-class="{active : item.isActive}", ng-click="activeItem($index, musicList)")
+      .unit.list-input-user
+        input.username(type="text", maxlength="12", ng-model="userName")
+        button(name="ok", ng-disabled="result == '' || !userName", ng-click="submitUser()") ok
+

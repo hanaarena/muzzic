@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 // Routes
-var routes = require('./routes/routes');
+var routes = require('./routes/index');
 var user = require('./routes/user');
 
 mongoose.connect('mongodb://127.0.0.1/muzic');

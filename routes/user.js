@@ -4,11 +4,11 @@
 var express = require('express');
 var jade = require('jade');
 var router = express.Router();
-var User = require('../models/User');
 var request = require('request');
+var User = require('../models/User');
 
 router.get('/', function(req, res, next) {
-  next()
+  next();
 });
 
 router.get('/:userName', function(req, res, next) {
@@ -20,7 +20,7 @@ router.get('/:userName', function(req, res, next) {
     console.log(userName);
     User.findOne({name: userName})
       .exec(function (err, user) {
-        if (err) {
+        if (!user) {
           next(err);
         } else {
           //- Get user favor play list length
@@ -54,6 +54,28 @@ router.get('/:userName', function(req, res, next) {
   } else {
     next();
   }
+});
+
+router.post('/create', function(req, res, next) {
+  User.findOne({name: req.body.name}, function(err, user) {
+    if (user) {
+      res.status(500).send({exist: 'User exist.'});
+    } else {
+      var newUser = new User({
+        name: req.body.name,
+        avatar: '/path/to/avatar',//- default
+        favorSong: req.body.favorSong,
+        favorPlaylist: [] //- default
+      });
+      newUser.save(function (err, user) {
+        if (err) {
+          return next(err);
+        } else {
+          return res.send({redirect: '/user/'+req.body.name});
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;
