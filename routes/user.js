@@ -5,6 +5,7 @@ var express = require('express');
 var jade = require('jade');
 var router = express.Router();
 var request = require('request');
+var routerService = require('./routerService');
 var User = require('../models/User');
 
 router.get('/', function(req, res, next) {
@@ -25,7 +26,7 @@ router.get('/:userName', function(req, res, next) {
         } else {
           //- Get user favor play list length
           var playlistCount = user.favorPlaylist.length;
-          //- Get random play list number from list
+          //- Get random play list number from play list
           var playlist = user.favorPlaylist[Math.round(Math.random(0, playlistCount - 1))];
 
           request({
@@ -54,6 +55,19 @@ router.get('/:userName', function(req, res, next) {
   } else {
     next();
   }
+});
+
+router.get('/:username/list', function(req, res, next) {
+  User.findOne({name: req.params.username}, function(err, user) {
+    if (user) {
+      routerService.restHandler(res, {
+        songList: user.favorSong,
+        albumList: user.favorPlaylist
+      });
+    } else {
+      next(err);
+    }
+  })
 });
 
 router.post('/create', function(req, res, next) {
