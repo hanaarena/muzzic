@@ -59,13 +59,13 @@ router.get('/:userName', function(req, res, next) {
 
 router.get('/:username/list', function(req, res, next) {
   User.findOne({name: req.params.username}, function(err, user) {
-    if (user) {
+    if (err) {
+      next(err);
+    } else {
       routerService.restHandler(res, {
         songList: user.favorSong,
         albumList: user.favorPlaylist
       });
-    } else {
-      next(err);
     }
   })
 });

@@ -1,18 +1,21 @@
 var angular = require('angular');
-var indexModule = angular.module('indexModule', []);
+var user = require('../../services/api/user');
+var indexModule = angular.module('indexModule', [
+  user.name
+]);
 
 indexModule.controller('IndexCtrl', [
   '$scope',
   '$http',
-  function($scope, $http) {
+  'User',
+  function($scope, $http, User) {
     $scope.result = [];
     $scope.userName = '';
     $scope.isActive = false;
 
     var queryMusicList = function() {
-      $http.get('/musicList').then(function(response) {
-        console.log(response);
-        $scope.musicList = response.data.result;
+      User.queryMusicList().then(function(response) {
+        $scope.musicList = response.content.musiclist;
       }, function(err) {
         console.error(err);
       });
