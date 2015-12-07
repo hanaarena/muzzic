@@ -2,7 +2,7 @@
  * Created by Lanz on 2015/12/5.
  */
 
-function restHandler(res, data, error) {
+function restHandler(res, data, code, msg) {
   var content = data ? data : null;
   if (!data) {
     content = {};
@@ -12,8 +12,9 @@ function restHandler(res, data, error) {
     content: content
   };
 
-  if (error) {
-    r.error = error;
+  if (code) {
+    r.code = code;
+    r.msg = msg;
     r.result = 'error';
   } else {
     r.code = 200;

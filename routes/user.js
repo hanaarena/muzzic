@@ -73,19 +73,27 @@ router.get('/:username/list', function(req, res, next) {
 router.post('/create', function(req, res, next) {
   User.findOne({name: req.body.name}, function(err, user) {
     if (user) {
-      res.status(500).send({exist: 'User exist.'});
+      routerService.restHandler(res, {}, 500, 'User exist');
     } else {
+      var songArray = [];
+      var favorSong = req.body.favorSong;
+      favorSong = favorSong.split(',');
+      favorSong.forEach(function(arr) {
+        songArray.push(arr);
+      });
       var newUser = new User({
         name: req.body.name,
         avatar: '/path/to/avatar',//- default
-        favorSong: req.body.favorSong,
+        favorSong: songArray,
         favorPlaylist: [] //- default
       });
       newUser.save(function (err, user) {
         if (err) {
           return next(err);
         } else {
-          return res.send({redirect: '/user/'+req.body.name});
+          return routerService.restHandler(res, {
+            redirect: '/user/' + req.body.name
+          });
         }
       });
     }

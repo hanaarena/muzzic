@@ -17,8 +17,8 @@ user.factory('User', [
       return Request.get('/musicList');
     };
 
-    User.test = function() {
-      return Request.get('/user/k/list');
+    User.createAccount = function(params) {
+      return Request.post('/user/create', params);
     };
 
     return User;

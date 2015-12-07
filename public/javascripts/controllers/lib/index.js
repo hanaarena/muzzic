@@ -16,8 +16,8 @@ indexModule.controller('IndexCtrl', [
     var queryMusicList = function() {
       User.queryMusicList().then(function(response) {
         $scope.musicList = response.content.musiclist;
-      }, function(err) {
-        console.error(err);
+      }, function(response) {
+        console.error(response);
       });
     };
     queryMusicList();
@@ -40,18 +40,17 @@ indexModule.controller('IndexCtrl', [
     };
 
     $scope.submitUser = function() {
-      console.log($scope.result + ' , ' + $scope.userName);
-      $http.post('/user/create', {
+      User.createAccount({
         name: $scope.userName,
         favorSong: $scope.result
       }).then(function(response) {
-        if (response.data.redirect) {
-          location.href = response.data.redirect;
+        if (response.content.redirect) {
+          location.href = response.content.redirect;
         }
-      }, function(err) {
-        console.error(err.data.exist);
-        if (err.data.exist) {
-          alert(err.data.exist);
+      }, function(response) {
+        console.error(response);
+        if (response.msg) {
+          alert(response.msg);
         }
       })
     };
