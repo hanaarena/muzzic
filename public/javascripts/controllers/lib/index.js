@@ -42,7 +42,8 @@ indexModule.controller('IndexCtrl', [
     $scope.submitUser = function() {
       User.createAccount({
         name: $scope.userName,
-        favorSong: $scope.result
+        favorSong: $scope.result,
+        avatar: false
       }).then(function(response) {
         if (response.content.redirect) {
           location.href = response.content.redirect;

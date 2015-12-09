@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var user = require('./routes/user');
 
-mongoose.connect('mongodb://127.0.0.1/muzic');
+mongoose.connect('mongodb://127.0.0.1/muzzic');
 console.log('Connected to MongoDB');
 mongoose.connection.on('error', function() {
 	console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');

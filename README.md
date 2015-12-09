@@ -20,4 +20,5 @@ gulp watch
 
 - [x] Play song
 - [x] Support playlist
-- [ ] User management
+- [ ] User management - visit, create, notification
+- [ ] Tracking system -> data visualization analyse

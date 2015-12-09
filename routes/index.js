@@ -185,7 +185,7 @@ router.get('/auto', function (req, res, next) {
     } else {
       var newUser = new User({
         name: 'admin', //- default
-        avatar: '/path/to/avatar',
+        avatar: '/build/images/muzic_doge.png',
         favorSong: ['185982'], //- default
         favorPlaylist: ['88497708', '10459133', '88480804'] //- default
       });

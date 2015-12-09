@@ -83,7 +83,7 @@ router.post('/create', function(req, res, next) {
       });
       var newUser = new User({
         name: req.body.name,
-        avatar: '/path/to/avatar',//- default
+        avatar: req.body.avatar || '/build/images/muzic_doge.png',//- default
         favorSong: songArray,
         favorPlaylist: [] //- default
       });
