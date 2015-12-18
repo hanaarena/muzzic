@@ -71,7 +71,7 @@ mainModule.controller('mainCtrl', [
           // TODO: handle when user have album data
         }
 
-        if (data.songList) {
+        if (data.songList.length > 0) {
           var length = data.songList.length;
           var songID = data.songList[Math.round(Math.random(0, length - 1))];
           $http.get('/song/' + songID).then(function(response) {
@@ -99,6 +99,8 @@ mainModule.controller('mainCtrl', [
               console.error(esponse.data.result);
             }
           });
+        } else {
+          // TODO: handle when empty song list
         }
       }, function(response) {
         if (response.data.result == 'error') {
